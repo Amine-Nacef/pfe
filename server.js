@@ -85,3 +85,26 @@ app.get("/extrairefuite",(req,res)=>{
 app.listen(3000,()=>{
   console.log("server is running on port 3000");
 });
+app.get("/extrairefuite_ids", (req, res) => {
+  con.query("SELECT id FROM fuite", (err, results) => {
+      if (err) {
+          return res.status(500).send("Erreur lors de l'extraction des IDs");
+      }
+      const ids = results.map(row => row.id);
+      res.json(ids);
+  });
+});
+app.get("/extrairefuite", (req, res) => {
+  const id = req.query.id;
+  if (!id) return res.status(400).send("ID manquant");
+
+  con.query("SELECT information, lien, source, date FROM fuite WHERE id = ?;", [id], (err, result) => {
+      if (err) {
+          return res.status(500).send("Erreur lors de l'extraction de la fuite");
+      }
+      if (result.length === 0) {
+          return res.status(404).send("Aucune donnée trouvée pour cet ID");
+      }
+      res.json(result[0]);
+  });
+});

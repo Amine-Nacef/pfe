@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PFE-Air Algérie</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="icon" href="Airalgerie.png">
+    <link rel="icon" href="../pfe/Airalgerie-removebg-preview.png">
     <style>
         :root {
             --primary-color: #1a365d;
@@ -257,7 +257,7 @@
 
     <!-- En-tête -->
     <div class="header">
-        <img src="Airalgerie-removebg-preview.png" alt="Logo" class="logo">
+        <img src="../pfe/Airalgerie-removebg-preview.png" alt="Logo" class="logo">
         <h1>SCRAPING</h1>
     </div>
 
@@ -268,7 +268,8 @@
     </div>
 
     <!-- Résultats -->
-    <div class="results-container">
+    <div id="fuites-container" class="results-container">
+
         <!-- Exemple de carte -->
         <div class="result-card">
             <div class="card-title">Titre du résultat de recherche</div>
@@ -297,6 +298,52 @@
                 document.getElementById('profileMenu').classList.remove('show');
             }
         }
+
+document.addEventListener("DOMContentLoaded", async function () {
+    try {
+        // 🔹 Étape 1 : Récupérer les IDs
+        const responseIds = await fetch("http://192.168.56.1:3000/extrairefuite_ids");  
+        if (!responseIds.ok) throw new Error("Impossible de récupérer les IDs");
+
+        const ids = await responseIds.json();
+        if (!Array.isArray(ids) || ids.length === 0) {
+            console.warn("Aucun ID trouvé");
+            return;
+        }
+
+        // 🔹 Sélectionner le conteneur d'affichage
+        const container = document.getElementById("fuites-container");
+        container.innerHTML = "";  
+
+        // 🔹 Étape 2 : Récupérer les détails pour chaque ID
+        for (const id of ids) {
+            const response = await fetch(`http://192.168.56.1:3000/extrairefuite?id=${id}`);
+            if (!response.ok) {
+                console.warn(`Données introuvables pour l'ID ${id}`);
+                continue;
+            }
+
+            const data = await response.json();
+
+           
+            const card = document.createElement("div");
+            card.classList.add("fuite-card");
+            card.innerHTML = `
+                <h3>${data.information}</h3>
+                <p><strong>Source:</strong> ${data.source}</p>
+                <p><strong>Date:</strong> ${data.date}</p>
+                <a href="${data.lien}" target="_blank" class="fuite-link">Voir plus</a>
+            `;
+
+          
+            container.appendChild(card);
+        }
+
+        console.log("Données extraites avec succès !");
+    } catch (error) {
+        console.error("Erreur:", error);
+    }
+});
     </script>
 </body>
 </html>
