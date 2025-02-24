@@ -1,8 +1,9 @@
-let mysql = require('mysql');
-let express=require("express")
+const mysql = require('mysql');
+const fs = require('fs');
+const express=require("express");
 const app=express();
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json);
+//app.use(express.json); le programme mamchach avec
 
 var con = mysql.createConnection({
     host: "localhost",
@@ -19,6 +20,7 @@ var con = mysql.createConnection({
 
 app.post("/ajouterutilisateur",(req,res)=>{
     const {nom,prenom,email,mot_de_passe,role}=req.body;
+
     con.query('SELECT * FROM utilisateurs WHERE email = ?', [email], (err, results) => {
         if (err) {
           return res.status(500).send("utilisateur n'a pas pu etre identifier avant d'étre ajouté");
@@ -40,8 +42,16 @@ app.post("/ajouterutilisateur",(req,res)=>{
 });
 
 app.post("/ajouterfuite",(req,res)=>{
-    const {information,lien,source,date}=req.body;
-    con.query('SELECT * FROM fuite WHERE information = ?', [information], (err, results) => {
+  fs.readFile('./scrap_result/donnees.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading the file:', err);
+    }else{
+
+      const parsedData = JSON.parse(data);
+    
+      parsedData.forEach(item => {
+
+    con.query('SELECT * FROM fuite WHERE information = ?', [item.titre], (err, results) => {
         if (err) {
           return res.status(500).send("la fuite n'a pas pu etre identifier avant d'étre ajouté");
         }
@@ -51,7 +61,7 @@ app.post("/ajouterfuite",(req,res)=>{
           return res.status(400).send('information existe deja');
         } else {
     var sql = "INSERT INTO fuite (information,lien,source,date) VALUES (?,?,?,?);";
-  con.query(sql,[information,lien,source,date] , function (err, result) {
+  con.query(sql,[item.titre,item.lien,item.source,item.date] , function (err, result) {
     if (err) {
         return res.status(500).send("l'information n'a pas pu etre ajouter");
       }
@@ -59,6 +69,8 @@ app.post("/ajouterfuite",(req,res)=>{
   });
 }
     });
+});
+}});
 });
 
 app.get("/extrairefuite",(req,res)=>{
