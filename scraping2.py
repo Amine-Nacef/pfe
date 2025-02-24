@@ -37,7 +37,7 @@ def scraper_wikileaks(base_url, pages):
             date_text = date_span.text.strip() if date_span else "Aucune date"
             titre_text = titre.text.strip() if titre else "Aucun titre"
             
-            resultats.append((lien_text, date_text, titre_text))
+            resultats.append((lien_text, date_text, titre_text,source))
     
     try:
         with open(fichier_resultat, "w", encoding="utf-8") as f:
