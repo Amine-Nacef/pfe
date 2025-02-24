@@ -56,6 +56,8 @@ CREATE TABLE `utilisateurs` (
 
 INSERT INTO `utilisateurs` (`id`, `nom`, `prenom`, `email`, `mot_de_passe`, `role`) VALUES
 (1, 'ri', 'iphone', 'bobo@gmail.com', 'huhi', 'admin');
+INSERT INTO `fuite` (`id`, `information`, `date`, `source`, `lien`) VALUES
+(1, 'air algerie something', '1978-2-23', 'bobo', 'huhi.com');
 
 --
 -- Index pour les tables déchargées
