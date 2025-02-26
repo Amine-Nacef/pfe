@@ -1,1 +1,0 @@
-ALTER TABLE `utilisateurs` ADD `salt` VARCHAR(50) NOT NULL AFTER `mot_de_passe`;
