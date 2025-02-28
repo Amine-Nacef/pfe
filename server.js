@@ -1,3 +1,4 @@
+
 const mysql = require('mysql');
 const fs = require('fs');
 const express=require("express");
@@ -5,13 +6,16 @@ const app=express();
 app.use(express.urlencoded({ extended: false }));
 //app.use(express.json); le programme mamchach avec
 app.set('view engine', 'ejs');
+app.use('/image', express.static('image'));
+
+
 
 var con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
     port: 3306,
-    database: "pfe"
+    database: "pfe1"
   });
   
   con.connect(function(err) {
