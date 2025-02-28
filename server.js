@@ -7,8 +7,12 @@ app.use(express.urlencoded({ extended: false }));
 //app.use(express.json); le programme mamchach avec
 app.set('view engine', 'ejs');
 app.use('/image', express.static('image'));
-
-
+app.get('/pfelogin', (req, res) => {
+  res.render('pfelogin'); 
+});
+// app.get('/', (req, res) => {
+//   res.render('pfelogin');
+// });
 
 var con = mysql.createConnection({
     host: "localhost",

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Air Algérie</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f8fafc;
+        }
+        .container {
+            text-align: center;
+        }
+        .logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        .box {
+            background-color: #d43d3d;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            width: 500px;
+            margin: 0 auto;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        .box label
+        {
+          display: inline-block;
+            text-align: left;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 2px 0;
+        }
+        .box input {
+            width: 70%;
+            padding: 10px;
+            margin: 20px 0;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+           
+        }
+        .box button {
+            width: 40%;
+            padding: 10px;
+            background-color: white;
+            color: #d43d3d;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        .box button:hover {
+            background-color: #f2f2f2;
+        }
+        .link {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .link a {
+            color: #d43d3d;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .link a:hover {
+            color: #a52a2a;
+        }
+        .transition {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        @media screen and (max-width: 600px) {
+            .box {
+                width: 80%;
+            }
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="container transition" id="loginContainer">
+        <img src="../image/logo.png" alt="Air Algérie" class="logo">
+        
+        <div class="box">
+            <label>Email :</label>
+            <input type="email" placeholder="exemple@airalgerie.dz" required>
+            <label>Mot de passe :</label>
+            <input type="password" placeholder="Votre mot de passe" required>
+            <button>ENTREZ</button>
+        </div>
+        <p class="link">Si vous n'avez pas de compte ? <a href="#" onclick="goToRegister()">Inscrivez-vous</a></p>
+    </div>
+    
+    <div class="container transition" id="registerContainer" style="display: none;">
+        <img src="../image/logo.png" alt="Air Algérie" class="logo">
+        
+        <div class="box">
+            <label>Nom :</label>
+            <input type="text" placeholder="Votre nom" required>
+            <label>Email :</label>
+            <input type="email" placeholder="exemple@airalgerie.dz" required>
+            <label>Mot de passe :</label>
+            <input type="password" placeholder="Votre mot de passe" required>
+            <label>Confirmer votre mot de passe :</label>
+            <input type="password" placeholder="Votre mot de passe"required>
+            <button >S'INSCRIRE</button>
+        </div>
+        <p class="link">Avez-vous deja un compte ?<a href="#" onclick="returnToLogin()"> <strong> se connecter</strong> </a></p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(() => {
+                document.getElementById("loginContainer").classList.add("show");
+            }, 100);
+        });
+
+        function goToRegister() {
+            transitionBetween("loginContainer", "registerContainer");
+        }
+
+        function returnToLogin() {
+            transitionBetween("registerContainer", "loginContainer");
+        }
+
+        function transitionBetween(hideId, showId) {
+            document.getElementById(hideId).classList.remove("show");
+            setTimeout(() => {
+                document.getElementById(hideId).style.display = "none";
+                document.getElementById(showId).style.display = "block";
+                setTimeout(() => {
+                    document.getElementById(showId).classList.add("show");
+                }, 100);
+            }, 500);
+        }
+    </script>
+</body>
+</html>

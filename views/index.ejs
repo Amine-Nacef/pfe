@@ -80,6 +80,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            text-decoration: none;
         }
 
         .profile-menu-item:hover {
@@ -250,8 +251,8 @@
     <div class="profile-section" onclick="toggleMenu()">
         <div class="profile-picture"><i class="fa-solid fa-user"></i></div>
         <div class="profile-menu" id="profileMenu">
-            <div class="profile-menu-item"><i class="fa-solid fa-key"></i>Changer mot de passe</div>
-            <div class="profile-menu-item"><i class="fa-solid fa-right-from-bracket"></i>Déconnexion</div>
+            
+            <a href=" /pfelogin "class="profile-menu-item" ><i class="fa-solid fa-right-from-bracket"></i>Déconnexion </a>
         </div>
     </div>
 
@@ -273,7 +274,7 @@
         <% items.forEach(item => { %>
         <div class="result-card">
             <div class="card-title"><%= item.information %></div>
-            <%= item.source %>
+          <strong> from :</strong> <strong style="color: #dc2626;"><%= item.source %></strong>
             <a href="<%= item.lien %>" class="card-link"><%= item.lien %></a>
             <div class="card-date">
                 <i class="fa-regular fa-calendar"></i>
@@ -300,7 +301,9 @@
                 document.getElementById('profileMenu').classList.remove('show');
             }
         }
-       
+  
+    
+
     </script>
 </body>
 </html>
